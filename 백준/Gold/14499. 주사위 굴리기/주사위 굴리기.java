@@ -4,17 +4,15 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 /*
- * 지난 로봇청소기 문제와 비슷하게 톱니바퀴와 그 동작 메커니즘을 객체로 구현하여 문제를 해결하였다
- * 
- * 특히, 기어의 연쇄적인 움직임의 경우 재귀함수의 함수 실행 예약 특성을 이용하여 먼저 자신의 양쪽 기어가 움직일지의 여부를 확인 한 후
- * 자신을 회전시키므로써 기어 회전후 왼쪽, 오른쪽 극성의 값이 바뀌어 양쪽과 극성 비교가 불가능한 상황을 해결하였다
+ * 주사위가 각 방향으로 이동할 때, 각 면의 값이 어떻게 바뀌는지 찾는것이 문제의 관건
+ * 일정한 규칙을 찾으려 했지만, 규칙을 찾을 수 없어 각 경우에 대해 모두 그려봄
  */
 
 public class Main {
 	
-	static int N, M, row, col;
-	static int[][] map;
-	static int[] dice;
+	static int N, M, row, col;	// row, col : 주사위의 현재 위치
+	static int[][] map;	// 지도 정보를 담은 2차원 배열 (0,0)이 서북 끝임
+	static int[] dice;	// 주사위의 위, 뒤, 오른쪽, 왼쪽, 앞, 아래 를 각각 순서대로 담음
 	static StringBuilder sb;
 	
     public static void main(String[] args) throws NumberFormatException, IOException {
@@ -43,8 +41,21 @@ public class Main {
     	}
     	System.out.println(sb);
     }
-    
+    /*
+     * 주사위의 이동에따라 배열의 숫자를 변화시킴
+     * 		-------
+     * 	   /| 1   /|		 	 2 - 뒤
+     * 	  /4|----/3|     왼쪽 - 4  1 - 위  3 - 오른쪽
+     * 	  | /5---|-/			 5 - 앞 
+     * 	  |/   6 |/ 			 6 - 아래
+     * 	  --------
+     */
     static void rollDice(int dir) {
+    	/*
+    	 * 주사위 동쪽으로 이동
+    	 * 주사위 숫자의 변화
+    	 * 위 -> 오른쪽 -> 아래 -> 왼쪽 -> 위
+    	 */
     	if (dir == 1) {
     		if (!isValid(row, col+1)) return;
     		
@@ -63,6 +74,11 @@ public class Main {
     		}
     		sb.append(dice[1]).append("\n");
     		
+    	/*
+    	 * 주사위 서쪽으로 이동
+    	 * 주사위 숫자의 변화
+    	 * 위 -> 왼쪽 -> 아래 -> 오른쪽 -> 위
+    	 */
     	} else if (dir == 2) {
     		if (!isValid(row, col-1)) return;
     		
@@ -81,6 +97,11 @@ public class Main {
     		}
     		sb.append(dice[1]).append("\n");
     		
+		/*
+    	 * 주사위 북쪽으로 이동
+    	 * 주사위 숫자의 변화
+    	 * 위 -> 뒤 -> 아래 -> 앞 -> 위
+    	 */
     	} else if (dir == 3) {
     		if (!isValid(row-1, col)) return;
     		
@@ -99,6 +120,11 @@ public class Main {
     		}
     		sb.append(dice[1]).append("\n");
     		
+		/*
+    	 * 주사위 북쪽으로 이동
+    	 * 주사위 숫자의 변화
+    	 * 위 -> 앞 -> 아래 -> 뒤 -> 위
+    	 */
     	} else {
     		if (!isValid(row+1, col)) return;
     		

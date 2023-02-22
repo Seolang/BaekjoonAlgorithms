@@ -45,16 +45,25 @@ public class Solution {
 	}
 	
 	static void DFS(Pair loc, int dist, int cnt) {
+		/*
+		 * 현재까지 거리가 지금까지 최단거리보다 크면 pruning
+		 */
 		if (dist > result) {
 			return;
 		}
 		
+		/*
+		 * 모든 고객을 순회했다면 집까지의 거리를 계산해서 최종 거리를 구한다
+		 */
 		if (cnt == N) {
 			int finalDist = dist + calcDist(loc, home);
 			result = Math.min(finalDist, result);
 			return;
 		}
 		
+		/*
+		 * 각 고객을 순열로 방문하는 DFS
+		 */
 		for(int i=0; i<N; i++) {
 			if (!visit[i]) {
 				visit[i] = true;
@@ -65,6 +74,9 @@ public class Solution {
 		
 	}
 	
+	/*
+	 * 두 지점 사이의 거리 계산 메소드
+	 */
 	static int calcDist(Pair a, Pair b) {
 		return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 	}

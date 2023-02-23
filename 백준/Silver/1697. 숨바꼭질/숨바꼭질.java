@@ -19,7 +19,7 @@ public class Main {
 	
 	static int BFS() {
 		// 시작점이 동생위치이면 즉시 종료
-		if (N == K) return 0;
+		if (K <= N) return N-K;
 		
 		Queue<Integer> q = new ArrayDeque<>();
 		

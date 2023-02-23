@@ -4,8 +4,8 @@ import java.util.Scanner;
 
 public class Main {
 	
-	static boolean[] visit = new boolean[100001];
-	static int[] time = new int[100001];
+	static boolean[] visit = new boolean[100001];	// 방문 여부 저장
+	static int[] time = new int[100001];			// 방문 당시 시간 저장
 	static int N, K;
 	
 	public static void main(String[] args) {
@@ -18,7 +18,7 @@ public class Main {
 	}
 	
 	static int BFS() {
-		
+		// 시작점이 동생위치이면 즉시 종료
 		if (N == K) return 0;
 		
 		Queue<Integer> q = new ArrayDeque<>();
@@ -31,6 +31,7 @@ public class Main {
 			current = q.poll();
 			curTime = time[current] + 1;
 			
+			// x - 1로 이동
 			if (0 <= current - 1 && !visit[current-1]) {
 				if (current - 1 == K) return curTime;
 				
@@ -39,6 +40,7 @@ public class Main {
 				q.offer(current-1);
 			}
 			
+			// x + 1로 이동
 			if (current + 1 <= 100000 && !visit[current+1]) {
 				if (current + 1 == K) return curTime;
 				
@@ -47,6 +49,7 @@ public class Main {
 				q.offer(current+1);
 			}
 			
+			// 2 * x 로 이동
 			current *= 2;
 			if (current <= 100000 && !visit[current]) {
 				if (current == K) return curTime;

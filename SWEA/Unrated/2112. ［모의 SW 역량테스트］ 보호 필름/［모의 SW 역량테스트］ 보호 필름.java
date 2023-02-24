@@ -80,6 +80,8 @@ public class Solution {
 		Arrays.fill(cells[idx], 1);
 		selectLines(idx+1, cnt+1);
 		
-		cells[idx] = Arrays.copyOf(constCells[idx], W);
+		for(int i=0; i<W; i++) {
+			cells[idx][i] = constCells[idx][i];
+		}
 	}
 }

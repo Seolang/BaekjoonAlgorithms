@@ -31,13 +31,29 @@ public class Main {
 			for(int i=0; i<H; i++) {
 				for(int j=0; j<W; j++) {
 					if (map[i][j] == 1) {
-						BFS(i, j);
+						DFS(i, j);
 						result++;
 					}
 				}
 			}
 			
 			System.out.println(result);
+		}
+	}
+	
+	static void DFS(int si, int sj) {
+		map[si][sj] = 0;
+		
+	
+		for(int i=0; i<8; i++) {
+			int nextX = sj + dj[i];
+			int nextY = si + di[i];
+			
+			if (isValid(nextX, nextY) && 
+						map[nextY][nextX] == 1
+			) {
+				DFS(nextY, nextX);
+			}
 		}
 	}
 	

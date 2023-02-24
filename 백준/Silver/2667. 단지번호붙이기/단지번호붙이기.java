@@ -1,12 +1,15 @@
-import java.awt.*;
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Queue;
 
 public class Main {
-
+	
     static int N;
     static int[] dx = {1, 0, -1, 0};
     static int[] dy = {0, 1, 0, -1};
@@ -27,7 +30,7 @@ public class Main {
         for(int i=0; i<N; i++) {
             for(int j=0; j<N; j++) {
                 if (map[i][j] == '1') {
-                    list.add(BFS(i, j));
+                    list.add(DFS(i, j));
                     towns++;
                 }
             }
@@ -38,6 +41,21 @@ public class Main {
         for(int n : list) {
             System.out.println(n);
         }
+    }
+    
+    static int DFS(int si, int sj) {
+    	int area = 1;
+    	map[si][sj] = '0';
+    	
+    	for(int i=0; i<4; i++) {
+    		int nextX = sj + dx[i];
+            int nextY = si + dy[i];
+            if (isValid(nextX, nextY) && map[nextY][nextX] == '1') {
+                area += DFS(nextY, nextX);
+            }
+    	}
+    	
+    	return area;
     }
 
     static int BFS(int si, int sj) {

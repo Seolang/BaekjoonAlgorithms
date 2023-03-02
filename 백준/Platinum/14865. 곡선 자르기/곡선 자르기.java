@@ -50,16 +50,19 @@ public class Main {
 			prevY = y;
 		}
 		
+		// 시작 점이 가장 왼쪽, y축이 0보다 클 경우 첫번째 수직선을 추가해주어야 한다
 		if (deque.size()%2 != 0) {
 			deque.offer(new Pair(x));
 			minX = Math.min(minX, x);
 		}
 		
+		// 첫번째 수직선 찾기
 		while(deque.peek().x != minX) {
 			deque.offer(deque.poll());
 		}
 		
-		
+		// 수직선은 반드시 올라가고 내려가거나, 내려가고 올라오기때문에
+		// 같은 봉우리의 두 쌍의 수직선은 항상 붙어있다
 		int pairKey = 0;
 		while(!deque.isEmpty()) {
 			Pair p1 = deque.poll();

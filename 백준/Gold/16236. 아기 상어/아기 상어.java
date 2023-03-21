@@ -10,8 +10,8 @@ import java.util.StringTokenizer;
 public class Main {
 
     static int N, sharkSize = 2, ateFishNum = 0, fishes, sharkR, sharkC, timer;
-    static int[] dr = {0, 1, 0, -1};
-    static int[] dc = {1, 0, -1, 0};
+    static int[] dr = {-1, 0, 0, 1};
+    static int[] dc = {0, -1, 1, 0};
     static int[][] map;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -45,6 +45,17 @@ public class Main {
         System.out.println(timer);
     }
 
+    static void print() {
+        for(int i=0; i<N; i++) {
+            for(int j=0; j<N; j++) {
+                if (i == sharkR && j == sharkC) System.out.print(9 + " ");
+                else System.out.print(map[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("move : " + timer + " sharkSize : " + sharkSize);
+    }
+
     static boolean BFS(int initR, int initC) {
         boolean[][] visit = new boolean[N][N];
         int steps = 0;
@@ -53,15 +64,9 @@ public class Main {
         q.offer(new Point(initC, initR));
         visit[initR][initC] = true;
 
-        PriorityQueue<Point> pq = new PriorityQueue<>(((o1, o2) -> {
-            if (o1.y == o2.y) {
-                return o1.x - o2.x;
-            } else {
-                return o1.y - o2.y;
-            }
-        }));
+        Point fish = new Point(N, N);
 
-        while(!q.isEmpty() && pq.isEmpty()) {
+        while(!q.isEmpty()) {
             steps++;
             int size = q.size();
             for(int i=0; i<size; i++) {
@@ -75,8 +80,11 @@ public class Main {
                         int mapVal = map[nr][nc];
 
                         if (mapVal != 0 && mapVal < sharkSize) {
-                            pq.offer(new Point(nc, nr));
                             visit[nr][nc] = true;
+                            if (nr < fish.y || nr == fish.y && nc < fish.x) {
+                                fish.setLocation(nc, nr);
+                            }
+
                         } else if (mapVal == 0 || mapVal == sharkSize) {
                             q.offer(new Point(nc, nr));
                             visit[nr][nc] = true;
@@ -84,21 +92,19 @@ public class Main {
                     }
                 }
             }
-        }
-
-        if (!pq.isEmpty()) {
-            Point fish = pq.poll();
-            fishes--;
-            ateFishNum++;
-            if (ateFishNum == sharkSize) {
-                ateFishNum = 0;
-                sharkSize++;
+            if (fish.x != N) {
+                fishes--;
+                ateFishNum++;
+                if (ateFishNum == sharkSize) {
+                    ateFishNum = 0;
+                    sharkSize++;
+                }
+                timer += steps;
+                map[fish.y][fish.x] = 0;
+                sharkR = fish.y;
+                sharkC = fish.x;
+                return true;
             }
-            timer += steps;
-            map[fish.y][fish.x] = 0;
-            sharkR = fish.y;
-            sharkC = fish.x;
-            return true;
         }
 
         return false;

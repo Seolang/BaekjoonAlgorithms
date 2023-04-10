@@ -3,6 +3,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+/*
+ *  Top-down 방식의 DP 풀이
+ *  
+ */
+
 public class Main {
 	
 	static int M, N, answer;
@@ -36,6 +41,14 @@ public class Main {
 			return 1;
 		}
 		
+		/*
+		 * dp 초기값이 0이 아닌 -1인 이유
+		 * 
+		 * 만약 목표지점까지 도달하지 못한다면 0이 반환될텐데 이를 차후 DFS가 다시 방문했을때
+		 * 아직 방문하지 않은 점인지, 가봤는데 경로가 없는 점인지 구분을 할 수 없어
+		 * 다시 DFS를 재 수행하게 된다.
+		 * 
+		 */
 		if (dp[r][c] != -1) return dp[r][c];
 		
 		dp[r][c] = 0;

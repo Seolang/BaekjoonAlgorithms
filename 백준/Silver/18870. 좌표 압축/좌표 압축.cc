@@ -1,6 +1,8 @@
 #include<iostream>
-#include<map>
-#include<set>
+#include<unordered_map>
+#include<unordered_set>
+#include<vector>
+#include<algorithm>
 
 using namespace std;
 
@@ -9,8 +11,8 @@ int main() {
     cin.tie(0);
     cout.tie(0);
 
-    set<int> countSet;
-    map<int, int> sumMap;
+    unordered_set<int> countSet;
+    unordered_map<int, int> sumMap;
 
     int n;
     cin >> n;
@@ -24,10 +26,12 @@ int main() {
         countSet.insert(key);
     }
 
-    int sum = 0;
+    vector<int> values(countSet.begin(), countSet.end());
+    sort(values.begin(), values.end());
 
-    for (auto it : countSet) {
-        sumMap[it] = sum;
+    int sum = 0;
+    for (int v : values) {
+        sumMap[v] = sum;
         sum++;
     }
 

@@ -1,13 +1,18 @@
 #include<iostream>
 #include<algorithm>
-#include<vector>
+#include<utility>
 
 using namespace std;
+
+typedef pair<int, int> pii;
+
+pii arr[100000];
 
 int main() {
 
     ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+    cin.tie(0);
+    cout.tie(0);
 
     int t;
     cin >> t;
@@ -17,21 +22,21 @@ int main() {
         int n;
         cin >> n;
 
-        vector<vector<int>> arr(n, vector<int>(2, 0));
+        
         
         for (int i = 0; i < n; i++) {
-            cin >> arr[i][0] >> arr[i][1];
+            cin >> arr[i].first >> arr[i].second;
         }
 
-        sort(arr.begin(), arr.end());
+        sort(arr, arr+n);
 
         int maxSecond = n+1;
         int answer = 0;
 
-        for (auto& rank : arr) {
-            if (rank[1] < maxSecond) {
+        for (int i = 0; i < n; i++) {
+            if (arr[i].second < maxSecond) {
                 answer++;
-                maxSecond = rank[1];
+                maxSecond = arr[i].second;
             }
         }
 
